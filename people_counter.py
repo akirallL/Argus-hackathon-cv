@@ -206,19 +206,25 @@ def make_prediction(in_filename, out_filename, confidence_threshold=0.3, skip_fr
 				cur_x = np.mean(x)
 				cur_y = np.mean(y)
 				x_low, x_high, y_low, y_high = W // 3, 2 * W // 3, H // 4, 3 * H // 4
+				
+				cv2.line(frame, (x_low, y_low), (x_low, y_high), color=(0, 255, 0))
+				cv2.line(frame, (x_high, y_low), (x_high, y_high), color=(0, 255, 0))
+				cv2.line(frame, (x_high, y_low), (x_low, y_low), color=(0, 255, 0))
+				cv2.line(frame, (x_high, y_high), (x_low, y_high), color=(0, 255, 0))
 
 				# check to see if the object has been counted or not
 				if not to.counted:
 					# if the direction is negative (indicating the object
 					# is moving up) AND the centroid is above the center
 					# line, count the object
-					pred_x, pred_y = cur_x + 10 * np.sign(direction_x), cur_y + 10 * np.sign(direction_y)
+					delta_pixels = 10
+					pred_x, pred_y = cur_x + delta_pixels * np.sign(direction_x), cur_y + delta_pixels * np.sign(direction_y)
 
 					if ((cur_x < x_low or cur_x > x_high) and pred_x >= x_low and pred_x >= x_high) and ((cur_y < y_low or cur_y > y_high) and pred_y >= y_low and pred_y >= y_high):
 						totalIn += 1
 						to.counted = True
 					elif cur_x >= x_low and cur_x <= x_high and cur_y >= y_low or cur_y <= y_high:
-						totalIn += 1
+						totalOut += 1
 						to.counted = True
 					elif cur_x >= x_low and cur_x <= x_high and cur_y >= y_low and cur_y <= y_high and (pred_x < x_low or pred_x > x_high or pred_y < y_low or pred_y > y_high):
 						totalOut += 1
