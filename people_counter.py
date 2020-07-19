@@ -229,11 +229,13 @@ while True:
 				# line, count the object
 				pred_x, pred_y = cur_x + 10 * np.sign(direction_x), cur_y + 10 * np.sign(direction_y)
 
-				if ((cur_x < x_low or cur_x > x_high) and pred_x >= x_low and pred_x >= x_high) or ((cur_y < y_low or cur_y > y_high) and pred_y >= y_low and pred_y >= y_high):
+				if ((cur_x < x_low or cur_x > x_high) and pred_x >= x_low and pred_x >= x_high) and ((cur_y < y_low or cur_y > y_high) and pred_y >= y_low and pred_y >= y_high):
 					totalIn += 1
 					to.counted = True
-
-				if (cur_x >= x_low and cur_x <= x_high and (pred_x < x_low or pred_x > x_high)) or (cur_y >= y_low and cur_y <= y_high and (pred_y < y_low or pred_y > y_high)):
+				elif cur_x >= x_low and cur_x <= x_high and cur_y >= y_low or cur_y <= y_high:
+					totalIn += 1
+					to.counted = True
+				elif cur_x >= x_low and cur_x <= x_high and cur_y >= y_low and cur_y <= y_high and (pred_x < x_low or pred_x > x_high or pred_y < y_low or pred_y > y_high):
 					totalOut += 1
 					to.counted = True
 
