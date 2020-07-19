@@ -1,0 +1,7 @@
+mxnet==1.7.0b20200315
+opencv_python==4.1.0.25
+gluoncv==0.7.0
+numpy==1.18.1
+imutils==0.5.3
+dlib==19.17.0
+scipy==1.4.1
